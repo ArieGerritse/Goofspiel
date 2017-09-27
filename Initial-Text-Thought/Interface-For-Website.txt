@@ -1,0 +1,63 @@
+﻿INTERFACE FOR CARD GAME SITE
+
+MAIN PAGE
+HEADER FOR ALL PAGES
+NAME OF WEB PAGE
+LOGO
+home button
+Login in header/ Register
+if not logged in
+Log Out 
+If logged in
+next to last logged in time
+Current rank in most played / goofthing
+Current online players*
+MAIN
+LIST OF GAMES
+Name of game above icon
+picture icon of game
+DIRECTS TO GAME PAGE
+Instructions
+PLAY BUTTON
+Top 1-
+To right of game, top 10 ranked player* < - now in game page
+with rank + user name
+*gold trophie next to #1 ect to number 3
+COMING SOON BLACK JACK
+FOOTER
+company
+copyright
+contact information
+home button
+back to top
+
+
+
+
+GAME PAGE!!!!!!!!!!!!!!!!!!!!!!
+Instructions of game in word
+screenshots of game
+PLAY BUTTON
+Current top 10 rank
+current games being played*
+
+
+
+
+Registration Page
+username
+check if username is already in rable
+if so throw error
+check if empty
+password
+encrypt password
+check if empty
+email
+check if email
+check if email is in user
+if so throw error
+check if empty
+
+ACTUAL GAME PAGE WHERE THEY PLAY
+WHO KNOWS BECAUES THIS GAME IS DUMB	
+http://www.catsatcards.com/Games/Goofspiel.html

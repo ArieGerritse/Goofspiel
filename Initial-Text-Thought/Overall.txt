@@ -1,0 +1,43 @@
+﻿App can support mutliple types of card games
+Card Game
+rules
+js file
+linke to jsfile to table
+Implament Goofspiel
+stuff
+player can play with another player 
+match by random
+players must be playing the same game
+cannot choose opponunt
+match by game
+players choose game to play
+Game is done turn based
+player does action goes to other player for their turn
+player can see if it is their turn
+player can play mutiple games at one time
+Ranks
+table/database of player ranks
+based on game
+number of games won
+number of games player
+Rank is wins / played*100
+Database of games played
+For each user
+which game they played
+which user they played
+who won
+when they played
+USER LOGIN / LOGOUT / REGISTER
+datbase of users
+encryption for passwords and cookies
+table of user / password / email*
+INTERFACE 
+Login / Register buttons
+Cant play if not logged in
+redirects on pages if not logged in exept main
+LOOK AT OTHER FILE FOR INTERFACE
+
+
+STRETCH GOALS
+
+
