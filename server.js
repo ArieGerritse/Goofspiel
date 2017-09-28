@@ -50,9 +50,9 @@ app.get('/GOPS', (req, res) => {
 });
 
 app.get('/GOPS/:id', (req, res) => {
-  res.render("gameui");
+  res.render("play_gops");
 });
 
 app.listen(PORT, () => {
-  console.log("Example app listening on port " + PORT);
-});
+      console.log("Example app listening on port " + PORT);
+    }
