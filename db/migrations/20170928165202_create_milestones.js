@@ -17,6 +17,9 @@ exports.up = function(knex, Promise) {
     table.string('Last Move Player');
     table.string('List of Previous Movies');
   })
+
+
+
 };
 exports.down = function(knex, Promise) {
   return knex.schema.dropTable('User Data', 'Game History', 'Game: Goofspiel');
