@@ -1,0 +1,7 @@
+﻿socket.io information! Looks useful for examples and how to set up the server
+
+http://buildnewgames.com/real-time-multiplayer/
+
+Using socket.io and express together, may need but above site is really good
+
+http://www.danielbaulig.de/socket-ioexpress/
