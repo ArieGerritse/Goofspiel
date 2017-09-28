@@ -1,4 +1,4 @@
-xports.up = function(knex, Promise) {
+exports.up = function(knex, Promise) {
   return knex.schema.createTable("user_data", (table) => {
     table.increments();
     table.string('Username');
@@ -17,7 +17,6 @@ xports.up = function(knex, Promise) {
     table.string('Last Move Player');
     table.string('List of Previous Movies');
   })
-  knex.schema.dropTable('User Data');
 };
 exports.down = function(knex, Promise) {
   return knex.schema.dropTable('dser_data', 'game_history', 'game_goofspiel');
