@@ -1,11 +1,11 @@
   //All available cards to draw from; no clubs as are only 3 suits are used
   const suits = ["diamonds", "hearts", "spades"];
   const cardNum = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
-
+  //Shuffles the diamond cards at the BEGINNING of the round
   function drawCard(cardsArray) {
-    var currCard = 0;
-    var swapCard = 0;
-    var temp = null;
+    let currCard = 0;
+    let swapCard = 0;
+    let temp = null;
     //runs while there are cards in deck, shuffles all but picked card
     for (currCard = cardsArray.length - 1; currCard > 0; currCard--) {
       swapCard = Math.floor(Math.random() * currCard);
@@ -16,10 +16,39 @@
     }
     return cardsArray;
   }
+  //Check which player has the higher card PER TURN
+  function checkCards(testDB) {
+    let winner;
+    if (testDB.user1_card > testDB.user2_card) {
+      winner = 'user1_card';
+      return winner + ': ' + testDB.user1_card;
+    }
+    if (testDB.user1_card < testDB.user2_card) {
+      winner = 'user2_card';
+      return winner + ': ' + testDB.user2_card;
+    }
+    if (testDB.user1_card === testDB.user2_card) {
+      //ifTie();
+    }
+  }
+  //Check final score after game is played
+  function checkFinalScore(testDB) {
+    let winner;
+    if (testDB.user1_score > testDB.user2_score) {
+      winner = 'user1_score';
+      return winner + ': ' + testDB.user1_score;
+    }
+    if (testDB.user1_score < testDB.user2_score) {
+      winner = 'user2_score';
+      return winner + ': ' + testDB.user2_score;
+    }
+    if (testDB.user1_score === testDB.user2_score) {
+      //ifTie();
+    }
+  }
 
   /*
-
-    function addScore() {
+    function addTurnScore() {
 
 
 
