@@ -1,0 +1,14 @@
+exports.up = function(knex, Promise){
+  return Promise.all([
+    knex.schema.createTable({}),
+    knex.schema.createTable({})
+  ])
+}
+
+
+exports.down = fucntion(knex, Promise) {
+return Promise.all([
+  knex.schema.dropTable('users'),
+  knex.schema.dropTable('users')
+  ])
+}
