@@ -28,7 +28,7 @@ exports.seed = function(knex, Promise) {
           value: 10
         }),
         knex('cards_played').insert({
-          id: 1,
+          id: 6,
           hand_id: 3,
           value: 12
         })
