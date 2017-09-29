@@ -21,10 +21,9 @@ exports.up = function(knex, Promise) {
       table.increments();
       table.text('winner');
       table.integer('turn_count');
-    }),
-    knex.schema.dropTable('User Data');
-};
+    });
+}
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTable('game_data', 'current_game', 'game_hand', 'cards_played');
+  return knex.schema.dropTable();
 };

@@ -1,24 +1,10 @@
 module.exports = function newGame() {
-  const diamondCards = shuffCards(cardNum);
   const user1 = suits[0];
   const user2 = suits[1];
 };
-//Shuffles the diamond cards at the BEGINNING of the round
-module.exports = function shuffleCards(cardsArray) {
-  let currCard = 0;
-  let swapCard = 0;
-  let temp = null;
-  //runs while there are cards in deck, shuffles all but picked card
-  for (currCard = cardsArray.length - 1; currCard > 0; currCard--) {
-    swapCard = Math.floor(Math.random() * currCard);
-    //swap picked card with current
-    temp = cardsArray[currCard];
-    cardsArray[currCard] = cardsArray[swapCard];
-    cardsArray[swapCard] = temp;
-  }
-  return cardsArray;
-};
+
 //Check which player has the higher card PER TURN
+
 module.exports = function checkCards(testDB) {
   let winner;
   if (testDB.user1_card > testDB.user2_card) {
@@ -48,3 +34,27 @@ module.exports = function checkFinalScore(testDB) {
     //ifTie();
   }
 };
+
+
+/*
+  function addTurnScore() {
+
+
+
+  }
+
+
+  function pickWinner {} {
+
+
+
+  }
+
+
+  function ifTie() {
+
+
+
+
+  }
+*/
