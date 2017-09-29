@@ -35,13 +35,52 @@ module.exports = function checkFinalScore(testDB) {
   }
 };
 //Shuffles a random diamond card and discards it
-module.exports = function shuffleDiamond(diamondCards) {
-  let card;
-  for (let pCard = 0; pCard < 13; pCard++) {
-    card = Math.floor(Math.random() * (diamondCards.length));
-  }
-  return diamondCards.splice(card, 1)[0];
+module.exports = function shuffleDiamond(diamondCards, hand_id) {
+  let card = Math.floor(Math.random() * (diamondCards.length));
+  //Deletes row of card played
+  knex('cards_played')
+    .del()
+    .where({
+      hand_id: hand_id,
+      value: diamondCards[card]
+    }).asCallback((result) => {});
 };
+//Selects dealer's card by hand_id, and shuffles them
+module.exports = function selectDiamond(hand_id) {
+  let temp = [];
+  knex('cards_played')
+    .select('value')
+    .where('hand_id', hand_id)
+    .then((results) => {
+      for (let cards in results) {
+        temp.push(results[cards].value);
+      }
+      console.log(temp);
+      shuffleDiamond(temp, hand_id);
+    });
+};
+//
+module.exports = function select2(id) {
+  knex('user')
+    .select('games_won')
+    .where('id', id)
+    .then((results) => {
+
+      console.log(results);
+    });
+}
+
+//Selects all cards being played by GIVEN ID param
+module.exports = function selectFull(stuff) {
+  knex('cards_played')
+    .select('value')
+    .innerJoin('game_hand', 'game_hand.id', 'cards_played.hand_id')
+    .where('hand_id', stuff)
+    .then((results) => {
+      console.log(results);
+    });
+};
+
 /*
   function addTurnScore() {
 
