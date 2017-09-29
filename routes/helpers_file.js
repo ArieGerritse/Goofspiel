@@ -38,18 +38,12 @@ module.exports = function checkFinalScore(testDB) {
 module.exports = function shuffleDiamond(diamondCards, hand_id) {
   let card = Math.floor(Math.random() * (diamondCards.length));
   //Deletes row of card played
-
-  console.log(hand_id + '???????');
-  console.log(diamondCards[card] + '!!!!!!!!!');
   knex('cards_played')
     .del()
     .where({
       hand_id: hand_id,
       value: diamondCards[card]
     }).asCallback((result) => {});
-
-
-  console.log(diamondCards[card]);
 };
 //Selects dealer's card by hand_id, and shuffles them
 module.exports = function selectDiamond(hand_id) {
