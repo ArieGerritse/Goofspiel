@@ -42,6 +42,40 @@ module.exports = function shuffleDiamond(diamondCards) {
   }
   return diamondCards.splice(card, 1)[0];
 };
+//Selects all cards being played by GIVEN ID param
+module.exports = function selectFull(stuff) {
+  return knex('cards_played')
+    .select('value')
+    .innerJoin('game_hand', 'game_hand.id', 'cards_played.hand_id')
+    .where('hand_id', stuff)
+    .then((results) => {
+      console.log(results);
+    });
+};
+//Selects dealer's card by hand_id, and shuffles them
+module.exports = function select(id) {
+  let temp = [];
+  knex('cards_played')
+    .select('value')
+    .where('hand_id', id)
+    .then((results) => {
+      for (let cards in results) {
+        temp.push(results[cards].value);
+      }
+      shuffleDiamond(temp);
+    });
+}
+
+module.exports = function select2(id) {
+  knex('user')
+    .select('games_won')
+    .where('id', id)
+    .then((results) => {
+
+      console.log(results);
+    });
+}
+
 /*
   function addTurnScore() {
 
