@@ -20,13 +20,17 @@ $(function() {
 
     for (let x in array) {
 
-      $('#your_cards').append($("<input>").attr('type', 'image').attr("src", `/images/${array[x]}_of_hearts.svg`)
-        .attr("height", 130).attr('width', 83.6));
+      $('#your_cards').append($("<span>").attr('onclick', THISWORKSFUCKYOUTRAVIS()).append($("<input>").attr('type', 'image').attr("src", `/images/${array[x]}_of_hearts.svg`)
+        .attr("height", 130).attr('width', 83.6)));
     }
 
   }
 
-  $('input').click(function(arg) {
+  function THISWORKSFUCKYOUTRAVIS() {
+    console.log('regergregre');
+  }
+
+  $('span').click(function(arg) {
     console.log(arg);
     console.log(this);
     console.log('WOOOOOOOOOOOO');
