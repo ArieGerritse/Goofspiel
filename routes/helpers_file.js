@@ -59,7 +59,7 @@ module.exports = function selectDiamond(hand_id) {
       shuffleDiamond(temp, hand_id);
     });
 };
-//
+//rank thing for now
 module.exports = function select2(id) {
   knex('user')
     .select('games_won')
@@ -95,11 +95,11 @@ module.exports = function selectFull(stuff) {
 
   }
 
-
-  function ifTie() {
-
-
-
-
-  }
+}
 */
+function ifTurnTie() {
+
+
+
+
+}
