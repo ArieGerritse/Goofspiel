@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
     table.increments();
     table.integer('games_won');
     table.integer('is_dealer');
+
   });
 };
 
