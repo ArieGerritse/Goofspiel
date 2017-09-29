@@ -1,5 +1,4 @@
 exports.up = function(knex, Promise) {
-
   return null;
 
 };
