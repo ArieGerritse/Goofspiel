@@ -35,6 +35,15 @@ module.exports = function checkFinalScore(testDB) {
   }
 };
 
+function selectFull() {
+  return knex('cards_played')
+    .select('value')
+    .innerJoin('game_hand', 'game_hand.id', 'cards_played.hand_id')
+    .where('id', 3);
+}
+//SELECT * FROM cards INNER JOIN( SELECT * FROM hands WHERE game_id = {params[:game_id]}
+//AND player_id = {params[:player_id]})) AS a ON cards.hand_id = a.id WHERE active = 'true'
+
 
 /*
   function addTurnScore() {

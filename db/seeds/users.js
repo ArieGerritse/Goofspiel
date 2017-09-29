@@ -4,7 +4,7 @@ exports.seed = function(knex, Promise) {
       return Promise.all([
         knex('user').insert({
           id: 1,
-          games_won: 5,
+          games_won: 1,
           dealer_check: false
         }),
         knex('user').insert({
