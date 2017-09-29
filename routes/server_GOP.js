@@ -5,3 +5,5 @@ newGame();
 checkCards(testDB);
 //Check final score after game is played
 checkFinalScore(testDB);
+//Shuffles a random diamond card and discards it
+shuffleDiamond();

@@ -34,8 +34,14 @@ module.exports = function checkFinalScore(testDB) {
     //ifTie();
   }
 };
-
-
+//Shuffles a random diamond card and discards it
+module.exports = function shuffleDiamond(diamondCards) {
+  let card;
+  for (let pCard = 0; pCard < 13; pCard++) {
+    card = Math.floor(Math.random() * (diamondCards.length));
+  }
+  return diamondCards.splice(card, 1)[0];
+};
 /*
   function addTurnScore() {
 
