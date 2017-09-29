@@ -10,9 +10,9 @@ exports.up = function(knex, Promise) {
       table.increments();
       table.integer('hand_id');
       talbe.integer('value');
-    });
+    }),
 
-  return knex.schema.createTable("user", (table) => {
+    knex.schema.createTable("user", (table) => {
       table.increments();
       table.integer('games_won');
       table.integer('is_dealer');
