@@ -103,3 +103,19 @@ function ifTurnTie() {
 
 
 }
+
+  }
+*/
+
+function populateDealer(hand_id) {
+
+  for (let i = 1; i <= 13; i++) {
+    knex.insert({
+        hand_id: `${hand_id}`,
+        value: `${i}`
+      }).into('cards_played')
+      .then(function(id) {
+        select2(hand_id);
+      });
+  }
+}

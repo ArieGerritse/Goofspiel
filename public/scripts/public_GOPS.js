@@ -20,7 +20,6 @@ $(function() {
 
     for (let x in array) {
 
-      console.log(x);
       $('#your_cards').append($("<input>").attr('type', 'image').attr("src", `/images/${array[x]}_of_hearts.svg`)
         .attr("height", 130).attr('width', 83.6));
     }
@@ -30,6 +29,7 @@ $(function() {
   $('input').click(function(arg) {
     console.log(arg);
     console.log(this);
+    console.log('WOOOOOOOOOOOO');
   });
 
   create_cards(card_values);
