@@ -3,7 +3,7 @@ exports.seed = function(knex, Promise) {
     .then(function() {
       return Promise.all([
         knex('current_game').insert({
-          winner: 2,
+          winner: '',
           turn_count: 13
         })
       ]);

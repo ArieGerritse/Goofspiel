@@ -1,6 +1,8 @@
 module.exports = function newGame() {
-  const user1 = suits[0];
-  const user2 = suits[1];
+  populateDealer();
+  shuffleDiamond();
+  selectDiamond();
+  populateCurrentGame();
 };
 
 //Check which player has the higher card PER TURN
@@ -60,7 +62,7 @@ module.exports = function selectDiamond(hand_id) {
     });
 };
 //rank thing for now
-module.exports = function select2(id) {
+/*module.exports = function select2(id) {
   knex('user')
     .select('games_won')
     .where('id', id)
@@ -68,8 +70,33 @@ module.exports = function select2(id) {
 
       console.log(results);
     });
-}
+}*/
+//Populates dealer's (diamond) cards at the beginning of the game
+module.exports = function populateDealer(hand_id) {
 
+  for (let i = 1; i <= 13; i++) {
+    knex.insert({
+        hand_id: `${hand_id}`,
+        value: `${i}`
+      }).into('cards_played')
+      .then(function(id) {
+        console.log("woot");
+      });
+  }
+}
+//Populates current game with 13 cards and leaves winner blank
+function populateCurrentGame() {
+
+  for (let i = 1; i <= 13; i++) {
+    knex.insert({
+        winner: ``,
+        turn_count: `${i}`
+      }).into('current_game')
+      .then(function(id) {
+        console.log("it worked?");
+      });
+  }
+}
 //Selects all cards being played by GIVEN ID param
 module.exports = function selectFull(stuff) {
   knex('cards_played')
@@ -102,20 +129,4 @@ function ifTurnTie() {
 
 
 
-}
-
-  }
-*/
-
-function populateDealer(hand_id) {
-
-  for (let i = 1; i <= 13; i++) {
-    knex.insert({
-        hand_id: `${hand_id}`,
-        value: `${i}`
-      }).into('cards_played')
-      .then(function(id) {
-        select2(hand_id);
-      });
-  }
 }
