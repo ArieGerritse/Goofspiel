@@ -1,10 +1,27 @@
 exports.seed = function(knex, Promise) {
   return knex('users').del()
-    .then(function () {
+    .then(function() {
       return Promise.all([
-        knex('users').insert({id: 1, name: 'Alice'}),
-        knex('users').insert({id: 2, name: 'Bob'}),
-        knex('users').insert({id: 3, name: 'Charlie'})
+        knex('users').insert({
+          id: 1,
+          games_won: 5,
+          dealer_check: false
+        }),
+        knex('users').insert({
+          id: 2,
+          games_won: 1,
+          dealer_check: false
+        }),
+        knex('users').insert({
+          id: 3,
+          games_won: 2,
+          dealer_check: false
+        }),
+        knex('users').insert({
+          id: 4,
+          games_won: 8,
+          dealer_check: true
+        })
       ]);
     });
 };
