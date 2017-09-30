@@ -48,6 +48,9 @@ app.get("/", (req, res) => {
 app.get('/GOPS', (req, res) => {
   res.render("game_page");
 });
+app.get('/wait', (req, res) => {
+  res.render("wait");
+});
 
 app.get('/GOPS/:id', (req, res) => {
   res.render("play_gops");
