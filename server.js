@@ -76,13 +76,6 @@ app.get('/wait', (req, res) => {
   res.render("wait", templateVars);
 });
 
-app.get('/GOPS', (req, res) => {
-  let templateVars = {
-    player_id: req.session.player
-  };
-  res.render("game_page", templateVars);
-});
-
 app.get('/GOPS/:id', (req, res) => {
   let templateVars = {
     player_id: req.session.player

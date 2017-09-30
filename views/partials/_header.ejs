@@ -2,7 +2,7 @@
   <img class="logo" src="/images/pusheen.png">
   <span class="header"><strong>Pusheen's Gambling Den</span></strong>
   <div>
-    <% if(player_id !== undefined){ %>
+    <% if(player_id){ %>
       <h3><form action="/login" method="POST">
       <h5>You are not currently logged in.</h5>
 <textarea id="player" name="text" placeholder="Enter username!"></textarea>
@@ -10,6 +10,7 @@
       <form  action="/login" method="GET" >
       </form>
       <% } else{ %>
+    </h3>
       <h3>Welcome, you are now logged in!</h3>
       <% } %>
   </div>

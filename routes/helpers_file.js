@@ -7,6 +7,12 @@ module.exports = function newGame(user1, user2) {
   //populateHnad(user2);
 };
 
+module.exports = function everyTurn() {
+
+
+
+}
+
 //Check which player has the higher card PER TURN
 
 module.exports = function checkCards(testDB) {
@@ -85,7 +91,7 @@ module.exports = function populateDealer(hand_id) {
   }
 }
 //Populates current game with 13 cards and leaves winner blank
-function populateCurrentGame() {
+module.exports = function populateCurrentGame() {
 
   for (let i = 1; i <= 13; i++) {
     knex.insert({
@@ -124,6 +130,13 @@ module.exports = function selectFull(stuff) {
 */
 /*function ifTurnTie() {
 
+
+
+
+}
+
+
+function matchmaking(){
 
 
 
