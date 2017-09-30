@@ -14,7 +14,7 @@ const knex = require("knex")(knexConfig[ENV]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
 
-function selectFull(stuff) {
+/*function selectFull(stuff) {
   return knex('cards_played')
     .select('value')
     .innerJoin('game_hand', 'game_hand.id', 'cards_played.hand_id')
@@ -46,3 +46,5 @@ function select2(id) {
       console.log(results);
     });
 }
+*/
+

@@ -1,8 +1,10 @@
-module.exports = function newGame() {
+module.exports = function newGame(user1, user2) {
   populateDealer();
   shuffleDiamond();
   selectDiamond();
   populateCurrentGame();
+  //populateHand(user1);
+  //populateHnad(user2);
 };
 
 //Check which player has the higher card PER TURN
@@ -79,9 +81,7 @@ module.exports = function populateDealer(hand_id) {
         hand_id: `${hand_id}`,
         value: `${i}`
       }).into('cards_played')
-      .then(function(id) {
-        console.log("woot");
-      });
+      .then(function(id) {});
   }
 }
 //Populates current game with 13 cards and leaves winner blank
@@ -92,9 +92,7 @@ function populateCurrentGame() {
         winner: ``,
         turn_count: `${i}`
       }).into('current_game')
-      .then(function(id) {
-        console.log("it worked?");
-      });
+      .then(function(id) {});
   }
 }
 //Selects all cards being played by GIVEN ID param
@@ -124,9 +122,10 @@ module.exports = function selectFull(stuff) {
 
 }
 */
-function ifTurnTie() {
+/*function ifTurnTie() {
 
 
 
 
 }
+*/
