@@ -10,9 +10,6 @@ $(function() {
 
     for (let x in array) {
 
-      // $('#your_cards').append($("<span>").attr('onclick', THISWORKSFUCKYOUTRAVIS()).append($("<input>").attr('type', 'image').attr("src", `/images/${array[x]}_of_hearts.svg`)
-      //   .attr("height", 130).attr('width', 83.6)));
-
       $('#your_cards').append($("<input>").attr('type', 'image').addClass('img-fluid')
         .attr("src", `/images/${array[x]}_of_hearts.svg`).attr("alt", "Responsive image")
         .attr("onClick", `clickCard(${array[x]})`));
@@ -21,10 +18,6 @@ $(function() {
   }
 
   createCards(card_values);
-
-  // $('#your_cards').append($("<input>").attr('type', 'image').addClass('img-fluid')
-  //   .attr("src", `/images/${array[x]}_of_hearts.svg`).attr("alt", "Responsive image")
-  //   .attr("onClick", `clickCard(${array[x]})`));
 });
 
 
