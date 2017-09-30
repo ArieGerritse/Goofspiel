@@ -1,0 +1,19 @@
+.img-fluid {
+  position: relative;
+  display: inline-block;
+  float: bottom;
+  outline: 0;
+  width: 6.5%;
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+  margin-top: 55%;
+  /*nothing to add*/
+}
+
+
+
+/*.something {
+  width: 100%;
+  height: 37em;
+}
+*/
