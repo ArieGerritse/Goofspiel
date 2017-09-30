@@ -26,6 +26,12 @@ app.use(morgan('dev'));
 // Log knex SQL queries to STDOUT as well
 app.use(knexLogger(knex));
 
+//Cookies sessions for user
+app.use(cookieSession({
+  name: 'session',
+  keys: ['player']
+}));
+
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({
   extended: true
@@ -43,22 +49,45 @@ app.use("/api/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
-  res.render("index");
+  let templateVars = {
+    player_id: req.session.player
+  };
+  res.render("index", templateVars);
+});
+
+// Login with existing username
+app.post("/login", (req, res) => {
+  req.session.player = req.body.player;
+  res.redirect("/");
 });
 
 app.get('/GOPS', (req, res) => {
-  res.render("game_page");
+  let templateVars = {
+    player_id: req.session.player
+  };
+  res.render("game_page", templateVars);
+
 });
+
 app.get('/wait', (req, res) => {
-  res.render("wait");
+  let templateVars = {
+    player_id: req.session.player
+  };
+  res.render("wait", templateVars);
 });
 
 app.get('/GOPS', (req, res) => {
-  res.render("game_page");
+  let templateVars = {
+    player_id: req.session.player
+  };
+  res.render("game_page", templateVars);
 });
 
 app.get('/GOPS/:id', (req, res) => {
-  res.render("play_gops");
+  let templateVars = {
+    player_id: req.session.player
+  };
+  res.render("play_gops", templateVars);
 });
 
 app.listen(PORT, () => {
