@@ -1,49 +1,50 @@
- $(function() {
+$(function() {
 
 
-   const card_values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+  const card_values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
 
 
-   function createCards(array) {
+  function createCards(array) {
 
-     let $cards = $("container").addClass("cards");
+    let $cards = $("container").addClass("cards");
 
-     for (let x in array) {
+    for (let x in array) {
 
-       $('#your_cards').append($("<span>").attr('onclick', THISWORKSFUCKYOUTRAVIS()).append($("<input>").attr('type', 'image').attr("src", `/images/${array[x]}_of_hearts.svg`)
-         .attr("height", 130).attr('width', 83.6)));
-     }
+      // $('#your_cards').append($("<span>").attr('onclick', THISWORKSFUCKYOUTRAVIS()).append($("<input>").attr('type', 'image').attr("src", `/images/${array[x]}_of_hearts.svg`)
+      //   .attr("height", 130).attr('width', 83.6)));
 
-   }
+      $('#your_cards').append($("<input>").attr('type', 'image').addClass('img-fluid')
+        .attr("src", `/images/${array[x]}_of_hearts.svg`).attr("alt", "Responsive image")
+        .attr("onClick", `clickCard(${array[x]})`));
+    }
 
-   function THISWORKSFUCKYOUTRAVIS() {
-     console.log('regergregre');
-   }
+  }
 
-   $('span').click(function(arg) {
-     console.log(arg);
-     console.log(this);
-     console.log('WOOOOOOOOOOOO');
-   });
+  createCards(card_values);
 
-   createCards(card_values);
+  // $('#your_cards').append($("<input>").attr('type', 'image').addClass('img-fluid')
+  //   .attr("src", `/images/${array[x]}_of_hearts.svg`).attr("alt", "Responsive image")
+  //   .attr("onClick", `clickCard(${array[x]})`));
+});
 
 
-   //For when the window closes, ask if forfight
-   // $(window).on("beforeunload", function() {
-   //   return inFormOrLink ? "Do you really want to close?" : null;
-   // });
+// window.onbeforeunload = function(evt) {
+//   var message = 'Did you remember to download your form?';
+//   if (typeof evt == 'undefined') {
+//     evt = window.event;
+//   }
+//   if (evt) {
+//     evt.returnValue = message;
+//   }
 
-   // window.onbeforeunload = function(evt) {
-   //   var message = 'Did you remember to download your form?';
-   //   if (typeof evt == 'undefined') {
-   //     evt = window.event;
-   //   }
-   //   if (evt) {
-   //     evt.returnValue = message;
-   //   }
+//   return message;
+// };
 
-   //   return message;
-   // };
 
- });
+//   return message;
+// };
+
+function clickCard(card_value) {
+  console.log(card_value);
+  //req.params.id
+}
