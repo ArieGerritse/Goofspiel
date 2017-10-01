@@ -9,17 +9,26 @@
 </head>
 
 <body>
-  <div class="something">
-  </div>
   <div class="container">
     <main>
-      <div class="Opponent_card"></div>
-      <div class="diamond_card"></div>
-      <div class="tie_card"></div>
-      <div class="your_cards"></div>
-    </main>
-    <form id="your_cards" method="POST" action="/GOPS/qwdw">
-    </form>
+      <div class="row">
+        <div class="col-sm-4 col-xs-6">
+          opponent_card
+        </div>
+        <div class="col-sm-4 col-xs-6">
+          <img class="deck" src="/images/back1.jpg">
+        </div>
+        <div class="col-sm-4 col-xs-6">
+          <img class="diamond" src="/images/back1.jpg">
+        </div>
+        <div class="col-sm-4 col-xs-6">
+          your_card
+        </div>
+      </div>
+  </div>
+  </main>
+  <form id="your_cards" method="POST" action="/GOPS/qwdw">
+  </form>
   </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

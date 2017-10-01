@@ -8,13 +8,21 @@ module.exports = function newGame(user1, user2) {
 };
 
 module.exports = function everyTurn() {
+  selectDiamond();
+  checkCards();
+  addTurnScore();
+
+
+}
+module.exports = function selectUser() {
+
 
 
 
 }
 
-//Check which player has the higher card PER TURN
 
+//Check which player has the higher card PER TURN
 module.exports = function checkCards(testDB) {
   let winner;
   if (testDB.user1_card > testDB.user2_card) {
@@ -112,22 +120,21 @@ module.exports = function selectFull(stuff) {
     });
 };
 
-/*
-  function addTurnScore() {
+
+function addTurnScore() {
 
 
-
-  }
-
-
-  function pickWinner {} {
-
-
-
-  }
 
 }
-*/
+
+
+
+/*function pickWinner(winner) {
+  checkFinalScore(testDB);
+
+}*/
+
+
 /*function ifTurnTie() {
 
 
