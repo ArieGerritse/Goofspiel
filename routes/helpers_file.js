@@ -1,7 +1,7 @@
 module.exports = function newGame(user1, user2) {
-  populateDealer();
-  shuffleDiamond();
-  selectDiamond();
+  populateDealer(hand_id);
+  shuffleDiamond(diamondCards, hand_id);
+  selectDiamond(hand_id);
   populateCurrentGame();
 };
 
@@ -10,7 +10,7 @@ module.exports = function everyTurn() {
   checkCards();
   addTurnScore();
   splitHands(game_id, user1_id, user2_id);
-  checkFinalScore(game_id)
+  checkFinalScore(game_id);
 
 }
 //Selects each user in a game
@@ -49,29 +49,22 @@ module.exports = function selectFull(stuff) {
     .then((results) => {});
 };
 //Selects winner at the end of the game
-module.exports = function selectWinner() {
+function selectWinner(game, winner) {
   knex('current_game')
-    .select('winner', 'turn_count')
-    .where('id')
+    .select('winner')
+    .where('id', game)
     .update({
-      winner: winnerVar //waiting for winner variable to be passed
+      winner: winner //winner variable to be passed
     })
-    .then((results) => {
-      console.log(results);
-    });
+    .then((results) => {});
 }
-
 //Incraments winners' games_won to update latest result
-module.exports = function incramentWinner() {
+function incramentWinner(winner) {
   knex('player')
     .select('games_won')
-    .where('id', winnerVar) //waiting for winner variable to be passed
-    .update({
-      games_won: games_won++
-    })
-    .then((results) => {
-      console.log(results);
-    });
+    .where('id', winner) //winner variable to be passed
+    .increment('games_won', 1)
+    .then((results) => {});
 }
 
 //Check which player has the higher card PER TURN
@@ -97,22 +90,24 @@ module.exports = function checkFinalScore(game_id) {
     .where('game_id', game_id)
     .then((results) => {
       if (results[1].score > results[2].score) {
-        winner = results[1].score;
-        console.log(winner);
-        return winner + ': ' + results[1].score;
+        winner = results[1].user_id;
+        //return winner + ': ' + results[1].score;
       }
       if (results[1].score < results[2].score) {
-        winner = results[2].score;
-        console.log(winner);
-        return winner + ': ' + results[2].score;
+        winner = results[2].user_id
+        //return winner + ': ' + results[2].score;
       }
       if (results[1].score === results[2].score) {
         //ifTie();
       }
-    });
+      incramentWinner(winner);
+      selectWinner(game_id, winner);
+      return winner;
+    })
   knex('game_hand')
     .where('game_id', game_id)
     .del().asCallback((result) => {});
+
 };
 //Shuffles a random diamond card and discards it
 module.exports = function shuffleDiamond(diamondCards, hand_id) {
@@ -178,12 +173,6 @@ module.exports = function populateCurrentGame() {
 
 }*/
 
-
-
-function pickWinner(winner) {
-  checkFinalScore(testDB);
-
-}
 
 /*function clearTable(){
 
