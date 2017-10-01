@@ -9,9 +9,9 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-    return knex.schema.table("game_hand", (table) => {
-        table.increments();
-        table.dropColumn('card_value');
-        table.dropColumn('turn_count');
-      };
-    }
+  return knex.schema.table("game_hand", (table) => {
+    table.increments();
+    table.dropColumn('card_value');
+    table.dropColumn('turn_count');
+  });
+}
