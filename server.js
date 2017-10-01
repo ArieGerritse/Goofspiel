@@ -86,7 +86,16 @@ app.get('/GOPS/:id', (req, res) => {
   res.render("play_gops", templateVars);
 });
 
-const game_routes = require("./routes/game_gop");
+app.post('/gops/:id', (req, res) => {
+  // let url = req.params.id;
+  // let temp = url.indexOf(req.session.player);
+  // let game_id = url.substring(0, temp);
+  // res.redirect('/');
+  return null;
+});
+
+
+// const game_routes = require("./routes/game_gop");
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);

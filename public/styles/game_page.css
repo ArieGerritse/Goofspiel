@@ -1,4 +1,4 @@
-.img-fluid {
+form {
   position: relative;
   display: inline-block;
   float: bottom;
@@ -6,9 +6,14 @@
   width: 6.5%;
   margin-left: 0.5%;
   margin-right: 0.5%;
-  margin-top: 55%;
+  /*margin-top: 55%;*/
   /*nothing to add*/
 }
+
+
+
+
+
 
 
 
