@@ -1,6 +1,7 @@
 $(function() {
 
-
+  let once = 0;
+  let url = window.location.href.slice(27);
   const card_values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
 
 
@@ -11,8 +12,8 @@ $(function() {
     for (let x in array) {
 
       $('#your_cards')
-        .append($("<form>").attr("method", "POST").attr("action", "/gops/qwdw").attr("name", `${array[x]}`)
-          .append($("<input>").attr('type', 'image').addClass('img-fluid')
+        .append($("<form>").attr("method", "POST").attr("action", `/gops/${url}`).attr("name", `${array[x]}`)
+          .append($("<input>").attr('type', 'image').addClass('img-fluid').addClass(`card-${array[x]}`)
             .attr("src", `/images/${array[x]}_of_hearts.svg`).attr("alt", "Responsive image")
           ));
     }
@@ -23,64 +24,78 @@ $(function() {
 
   $("form").submit(function(event) {
 
-    // console.log(this.name);
     event.preventDefault();
-    // var arr = JSON.stringify({
-    //   input: this.name
-    // });
 
     let input = {
       input: this.name
     };
 
-    $.ajax({
-      url: "/gops/qwdw",
-      type: 'POST',
-      data: input,
-      success: function(hey) {
-        alert(hey);
-      }
-    });
+    if (once === 0) {
+      once++;
+      $(".your_card").attr("src", `/images/${this.name}_of_hearts.svg`);
+      $(`.card-${input.input}`).hide();
+      $.ajax({
+        url: `/gops/${url}`,
+        type: 'POST',
+        data: input,
+        success: function(hey) {
+          getData(hey);
+          alert(hey);
+        }
+      });
+    }
 
 
   });
 
-  // function getData()
+  function getData(array) {
+    let diamond_card = array[0];
+    let is_tie = array[1];
+    let opponent_card = array[2];
+    let your_score = array[3];
+    let opponent_score = array[4];
+
+    $('.opponent_card').attr("src", `/images/${opponent_card}_of_spades.svg`);
+
+    setTimeout(postScore(your_score, opponent_score), 2000);
+    setTimeout(clearBoard(is_tie), 4000);
+    setTimeout(printDiamond(diamond_card, is_tie), 5000);
+
+  }
+
+  function printDiamond(diamond_card, tie) {
+
+    if (tie) {
+      $('.deck').attr("src", `/images/${diamond_card}_of_diamonds.jpg`);
+    } else {
+      $('.diamond').attr("src", `/images/${diamond_card}_of_diamonds.jpg`);
+    }
+
+    once = 0;
+
+  }
+
+  function clearBoard(tie) {
+
+    if (!tie) {
+      $('.diamond').attr("src", "/images/back1.jpg");
+    }
+
+    $('.your_card').attr("src", "/images/back1.jpg");
+    $('.opponent_card').attr("src", "/images/back1.jpg");
+    $('.deck').attr("src", "/images/back1.jpg");
+
+  }
+
+  function postScore(your_score, user2_score) {
+
+    $('.opponent_score').text(user2_score);
+    $('.your_score').text(your_score);
+
+  }
 
 
 });
-
-// //Send Value of Card to Server
-// function clickboard(card_value) {
-//   // event.preventDefault();
-//   console.log(card_value);
-
-//   $.ajax({
-//     type: 'POST',
-//     url: `/GOPS/wqdijwq`,
-//     data: card_value,
-//     success: function(hey) {
-//       console.log('WORKED!');
-//     }
-//   });
-
-//   //req.params.id
-// }
-
-
-
-
-function printDiamond(diamond_card, tie) {
-
-}
-
-function printOpponentCard(user2_card) {
-
-}
-
-function postScore(your_score, user2_score) {
-
-}
 
 // window.onbeforeunload = function(evt) {
 //   var message = 'Did you remember to download your form?';

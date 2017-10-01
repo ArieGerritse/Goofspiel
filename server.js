@@ -22,6 +22,7 @@ const knexLogger = require('knex-logger');
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
+
 app.use(morgan('dev'));
 
 // Log knex SQL queries to STDOUT as well
@@ -61,7 +62,6 @@ app.get("/", (req, res) => {
 // Login with existing username
 app.post("/login", (req, res) => {
   console.log(req.body.player);
-  console.log('LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
   req.session.player = req.body.player;
   res.redirect("/");
 });
