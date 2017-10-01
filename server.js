@@ -17,7 +17,7 @@ const knexLogger = require('knex-logger');
 
 
 // Seperated Routes for each Resource
-const usersRoutes = require("./routes/users");
+// const usersRoutes = require("./routes/users");
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -48,7 +48,7 @@ app.use("/styles", sass({
 app.use(express.static("public"));
 
 // Mount all resource routes
-app.use("/api/users", usersRoutes(knex));
+// app.use("/api/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
@@ -60,6 +60,8 @@ app.get("/", (req, res) => {
 
 // Login with existing username
 app.post("/login", (req, res) => {
+  console.log(req.body.player);
+  console.log('LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
   req.session.player = req.body.player;
   res.redirect("/");
 });
@@ -86,12 +88,12 @@ app.get('/GOPS/:id', (req, res) => {
   res.render("play_gops", templateVars);
 });
 
-app.post('/gops/:id', (req, res) => {
-  // let url = req.params.id;
-  // let temp = url.indexOf(req.session.player);
-  // let game_id = url.substring(0, temp);
-  // res.redirect('/');
-  return null;
+app.post('/GOPS/:id', (req, res) => {
+  let url = req.params.id;
+  let game_id = url.substring(0, 1);
+  let user = req.session.player;
+  let input = req.body.input;
+  res.json([game_id, user, input]);
 });
 
 

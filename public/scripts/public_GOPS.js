@@ -21,21 +21,26 @@ $(function() {
 
   createBoard(card_values);
 
-  $("form").submit(function(value) {
-    console.log(this.name);
-    // event.preventDefault();
-    let arr = JSON.stringify([1, 4, this.name]);
+  $("form").submit(function(event) {
+
+    // console.log(this.name);
+    event.preventDefault();
+    // var arr = JSON.stringify({
+    //   input: this.name
+    // });
+
+    let input = {
+      input: this.name
+    };
 
     $.ajax({
-      type: 'POST',
       url: "/gops/qwdw",
-      // data: arr,
-      // dataType: 'json',
+      type: 'POST',
+      data: input,
+      // contentType: "application/json",
+      // dataType: "JSON",
       success: function(hey) {
         alert(hey);
-      },
-      error: function(error) {
-        alert(error);
       }
     });
 

@@ -2,10 +2,10 @@
   <img class="logo" src="/images/pusheen.png">
   <span class="header"><strong>Pusheen's Gambling Den</span></strong>
   <div>
-    <% if(player_id){ %>
+    <% if(!player_id){ %>
       <h3><form action="/login" method="POST">
       <h5>You are not currently logged in.</h5>
-<textarea id="player" name="text" placeholder="Enter username!"></textarea>
+<textarea id="player" name="player" placeholder="Enter username!"></textarea>
       <button class="button1"><span>Login</span></button></form>
       <form  action="/login" method="GET" >
       </form>
