@@ -8,13 +8,60 @@ module.exports = function newGame(user1, user2) {
 };
 
 module.exports = function everyTurn() {
-
+  selectDiamond();
+  checkCards();
+  addTurnScore();
 
 
 }
+//Selects each user in a game
+module.exports = function selectUser() {
+  let temp = [];
+  knex('game_hand')
+    .select('game_id', 'user_id', 'score')
+    .where('game_id', 1)
+    .then((results) => {
+      for (let user in results) {
+        temp.push(results[user]);
+      }
+    });
+
+}
+//Selects all cards being played by GIVEN ID param
+module.exports = function selectFull(stuff) {
+  knex('cards_played')
+    .select('value')
+    .innerJoin('game_hand', 'game_hand.id', 'cards_played.hand_id')
+    .where('hand_id', stuff)
+    .then((results) => {});
+};
+//Selects winner at the end of the game
+module.exports = function selectWinner() {
+  knex('current_game')
+    .select('winner', 'turn_count')
+    .where('id')
+    .update({
+      winner: winnerVar //waiting for winner variable to be passed
+    })
+    .then((results) => {
+      console.log(results);
+    });
+}
+
+//Incraments winners' games_won to update latest result
+module.exports = function incramentWinner() {
+  knex('player')
+    .select('games_won')
+    .where('id', winnerVar) //waiting for winner variable to be passed
+    .update({
+      games_won: games_won++
+    })
+    .then((results) => {
+      console.log(results);
+    });
+}
 
 //Check which player has the higher card PER TURN
-
 module.exports = function checkCards(testDB) {
   let winner;
   if (testDB.user1_card > testDB.user2_card) {
@@ -65,7 +112,6 @@ module.exports = function selectDiamond(hand_id) {
       for (let cards in results) {
         temp.push(results[cards].value);
       }
-      console.log(temp);
       shuffleDiamond(temp, hand_id);
     });
 };
@@ -101,33 +147,22 @@ module.exports = function populateCurrentGame() {
       .then(function(id) {});
   }
 }
-//Selects all cards being played by GIVEN ID param
-module.exports = function selectFull(stuff) {
-  knex('cards_played')
-    .select('value')
-    .innerJoin('game_hand', 'game_hand.id', 'cards_played.hand_id')
-    .where('hand_id', stuff)
-    .then((results) => {
-      console.log(results);
-    });
-};
 
-/*
-  function addTurnScore() {
+
+/*function addTurnScore() {
 
 
 
-  }
-
-
-  function pickWinner {} {
+}*/
 
 
 
-  }
+/*function pickWinner(winner) {
+  checkFinalScore(testDB);
 
-}
-*/
+}*/
+
+
 /*function ifTurnTie() {
 
 
