@@ -24,8 +24,6 @@ module.exports = function selectUser() {
       for (let user in results) {
         temp.push(results[user]);
       }
-      console.log(temp);
-
     });
 
 }
@@ -37,7 +35,31 @@ module.exports = function selectFull(stuff) {
     .where('hand_id', stuff)
     .then((results) => {});
 };
+//Selects winner at the end of the game
+module.exports = function selectWinner() {
+  knex('current_game')
+    .select('winner', 'turn_count')
+    .where('id')
+    .update({
+      winner: winnerVar //waiting for winner variable to be passed
+    })
+    .then((results) => {
+      console.log(results);
+    });
+}
 
+//Incraments winners' games_won to update latest result
+module.exports = function incramentWinner() {
+  knex('player')
+    .select('games_won')
+    .where('id', winnerVar) //waiting for winner variable to be passed
+    .update({
+      games_won: games_won++
+    })
+    .then((results) => {
+      console.log(results);
+    });
+}
 
 //Check which player has the higher card PER TURN
 module.exports = function checkCards(testDB) {
