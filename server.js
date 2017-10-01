@@ -93,7 +93,8 @@ app.post('/GOPS/:id', (req, res) => {
   let game_id = url.substring(0, 1);
   let user = req.session.player;
   let input = req.body.input;
-  res.json([game_id, user, input]);
+  let thing = everyTurn(game_id, user, input);
+  res.json(thing);
 });
 
 
