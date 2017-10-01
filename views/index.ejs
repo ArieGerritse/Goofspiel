@@ -20,8 +20,13 @@
 </head>
 
 <body>
-  <img class="img" src="/images/fidget.jpg">
-  <button type="button" class="playnow"> <a href="http://localhost:8080/GOPS">Play Gops!</a></button>
+    <img class="img" src="/images/fidget.jpg" />
+
+  <% if(player_id){ %>
+    <button type="button" class="playnow"> <a href="http://localhost:8080/GOPS">Play Gops!</a></button>
+    <% } else{ %>
+      <p>Please log in to play!</p>
+      <% } %>
 </body>
 <footer>
   <% include ./partials/_footer.ejs %>

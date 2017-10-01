@@ -1,17 +1,16 @@
 module.exports = function newGame(user1, user2) {
-  populateDealer();
-  shuffleDiamond();
-  selectDiamond();
+  populateDealer(hand_id);
+  shuffleDiamond(diamondCards, hand_id);
+  selectDiamond(hand_id);
   populateCurrentGame();
-  //populateHand(user1);
-  //populateHnad(user2);
 };
 
 module.exports = function everyTurn() {
   selectDiamond();
   checkCards();
   addTurnScore();
-
+  splitHands(game_id, user1_id, user2_id);
+  checkFinalScore(game_id);
 
 }
 //Selects each user in a game
@@ -25,7 +24,21 @@ module.exports = function selectUser() {
         temp.push(results[user]);
       }
     });
+}
+//Populates the hand of a player in a game
+module.exports = function populateHandTable(game_id, user_id) {
+  knex.insert({
+      game_id: `${game_id}`,
+      user_id: `${user_id}`,
+      score: `0`
+    }).into('game_hand')
+    .then(function(id) {});
+}
+//Populates hands of both players
+module.exports = function splitHands(game_id, user1_id, user2_id) {
 
+  populateHandTable(game_id, user1_id);
+  populateHandTable(game_id, user2_id);
 }
 //Selects all cards being played by GIVEN ID param
 module.exports = function selectFull(stuff) {
@@ -36,33 +49,26 @@ module.exports = function selectFull(stuff) {
     .then((results) => {});
 };
 //Selects winner at the end of the game
-module.exports = function selectWinner() {
+function selectWinner(game, winner) {
   knex('current_game')
-    .select('winner', 'turn_count')
-    .where('id')
+    .select('winner')
+    .where('id', game)
     .update({
-      winner: winnerVar //waiting for winner variable to be passed
+      winner: winner //winner variable to be passed
     })
-    .then((results) => {
-      console.log(results);
-    });
+    .then((results) => {});
 }
-
 //Incraments winners' games_won to update latest result
-module.exports = function incramentWinner() {
+function incramentWinner(winner) {
   knex('player')
     .select('games_won')
-    .where('id', winnerVar) //waiting for winner variable to be passed
-    .update({
-      games_won: games_won++
-    })
-    .then((results) => {
-      console.log(results);
-    });
+    .where('id', winner) //winner variable to be passed
+    .increment('games_won', 1)
+    .then((results) => {});
 }
 
 //Check which player has the higher card PER TURN
-module.exports = function checkCards(testDB) {
+module.exports = function checkCards() {
   let winner;
   if (testDB.user1_card > testDB.user2_card) {
     winner = 'user1_card';
@@ -76,20 +82,32 @@ module.exports = function checkCards(testDB) {
     //ifTie();
   }
 };
-//Check final score after game is played
-module.exports = function checkFinalScore(testDB) {
+//Check final score after game is played, and delete row of finished game
+module.exports = function checkFinalScore(game_id) {
   let winner;
-  if (testDB.user1_score > testDB.user2_score) {
-    winner = 'user1_score';
-    return winner + ': ' + testDB.user1_score;
-  }
-  if (testDB.user1_score < testDB.user2_score) {
-    winner = 'user2_score';
-    return winner + ': ' + testDB.user2_score;
-  }
-  if (testDB.user1_score === testDB.user2_score) {
-    //ifTie();
-  }
+  knex('game_hand')
+    .select('user_id', 'score')
+    .where('game_id', game_id)
+    .then((results) => {
+      if (results[1].score > results[2].score) {
+        winner = results[1].user_id;
+        //return winner + ': ' + results[1].score;
+      }
+      if (results[1].score < results[2].score) {
+        winner = results[2].user_id
+        //return winner + ': ' + results[2].score;
+      }
+      if (results[1].score === results[2].score) {
+        //ifTie();
+      }
+      incramentWinner(winner);
+      selectWinner(game_id, winner);
+      return winner;
+    })
+  knex('game_hand')
+    .where('game_id', game_id)
+    .del().asCallback((result) => {});
+
 };
 //Shuffles a random diamond card and discards it
 module.exports = function shuffleDiamond(diamondCards, hand_id) {
@@ -156,12 +174,11 @@ module.exports = function populateCurrentGame() {
 }*/
 
 
+/*function clearTable(){
 
-/*function pickWinner(winner) {
-  checkFinalScore(testDB);
+
 
 }*/
-
 
 /*function ifTurnTie() {
 
