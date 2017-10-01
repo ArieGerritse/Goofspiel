@@ -3,6 +3,7 @@ $(function() {
   let once = 0;
   let url = window.location.href.slice(27);
   const card_values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+  let diamond_card;
 
 
   function createBoard(array) {
@@ -27,7 +28,8 @@ $(function() {
     event.preventDefault();
 
     let input = {
-      input: this.name
+      input: this.name,
+      diamond_card: diamond_card
     };
 
     if (once === 0) {
@@ -38,9 +40,8 @@ $(function() {
         url: `/gops/${url}`,
         type: 'POST',
         data: input,
-        success: function(hey) {
-          getData(hey);
-          alert(hey);
+        success: function(results) {
+          getData(results);
         }
       });
     }
@@ -49,7 +50,7 @@ $(function() {
   });
 
   function getData(array) {
-    let diamond_card = array[0];
+    diamond_card = array[0];
     let is_tie = array[1];
     let opponent_card = array[2];
     let your_score = array[3];
@@ -57,9 +58,15 @@ $(function() {
 
     $('.opponent_card').attr("src", `/images/${opponent_card}_of_spades.svg`);
 
-    setTimeout(postScore(your_score, opponent_score), 2000);
-    setTimeout(clearBoard(is_tie), 4000);
-    setTimeout(printDiamond(diamond_card, is_tie), 5000);
+    setTimeout(function() {
+      postScore(your_score, opponent_score);
+    }, 2000);
+    setTimeout(function() {
+      clearBoard(is_tie);
+    }, 4000);
+    setTimeout(function() {
+      printDiamond(diamond_card, is_tie);
+    }, 5000);
 
   }
 
@@ -93,8 +100,6 @@ $(function() {
     $('.your_score').text(your_score);
 
   }
-
-
 });
 
 // window.onbeforeunload = function(evt) {

@@ -81,6 +81,25 @@ app.get('/wait', (req, res) => {
   res.render("wait", templateVars);
 });
 
+app.post('/wait,', (req, res) => {
+
+  // if (req.body.input) {
+  //   let found = match_making(req.body.input);
+  //   if (found) {
+  //     res.redirect(`/gops/${found + req.session.player}`);
+  //   }
+  // } else if (req.body.found) {
+  //   res.redirect(`/gops/${req.body.found + req.session.player}`);
+  // } else {
+  //   let found = match_making();
+  //   if (found) {
+  //     res.redirect(`/gops/${found + req.session.player}`);
+  //   }
+  // }
+
+
+});
+
 app.get('/GOPS/:id', (req, res) => {
   let templateVars = {
     player_id: req.session.player
@@ -93,8 +112,11 @@ app.post('/GOPS/:id', (req, res) => {
   let game_id = url.substring(0, 1);
   let user = req.session.player;
   let input = req.body.input;
+
+  // let array = do_every_turn();
+
   // let thing = everyTurn(game_id, user, input);
-  res.json([input]);
+  res.json(array);
 });
 
 
