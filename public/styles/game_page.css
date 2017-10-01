@@ -6,23 +6,29 @@ form {
   width: 6.5%;
   margin-left: 0.5%;
   margin-right: 0.5%;
+  margin-top: 15%;
+}
+
+main img {
+  vertical-align: middle;
+  border-style: none;
+  position: relative;
+  display: inline-block;
+  float: bottom;
+  outline: 0;
+  width: 38%;
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+  margin-top: 10%;
   /*margin-top: 55%;*/
 }
 
-.deck {
-  vertical-align: middle;
-  border-style: none;
-  position: relative;
-  display: inline-block;
-  float: bottom;
-  outline: 0;
-  width: 38%;
-  margin-left: 0.5%;
-  margin-right: 0.5%;
-  margin-top: 55%;
-}
 
-.diamond {
+
+
+
+
+/*.diamond {
   vertical-align: middle;
   border-style: none;
   position: relative;
@@ -34,12 +40,19 @@ form {
   margin-right: 0.5%;
   margin-top: 55%;
 }
+*/
 
 .index_main {
   display: block;
   max-width: 10%;
   height: auto;
 }
+
+
+
+
+
+
 
 /*.something {
   width: 100%;
