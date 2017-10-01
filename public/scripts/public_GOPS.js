@@ -1,7 +1,7 @@
 $(function() {
 
   let once = 0;
-
+  let url = window.location.href.slice(27);
   const card_values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
 
 
@@ -12,7 +12,7 @@ $(function() {
     for (let x in array) {
 
       $('#your_cards')
-        .append($("<form>").attr("method", "POST").attr("action", "/gops/qwdw").attr("name", `${array[x]}`)
+        .append($("<form>").attr("method", "POST").attr("action", `/gops/${url}`).attr("name", `${array[x]}`)
           .append($("<input>").attr('type', 'image').addClass('img-fluid').addClass(`card-${array[x]}`)
             .attr("src", `/images/${array[x]}_of_hearts.svg`).attr("alt", "Responsive image")
           ));
@@ -30,8 +30,6 @@ $(function() {
       input: this.name
     };
 
-    let url = window.location.href.slice(27);
-
     if (once === 0) {
       once++;
       $(".your_card").attr("src", `/images/${this.name}_of_hearts.svg`);
@@ -42,6 +40,7 @@ $(function() {
         data: input,
         success: function(hey) {
           getData(hey);
+          alert(hey);
         }
       });
     }
@@ -64,37 +63,39 @@ $(function() {
 
   }
 
+  function printDiamond(diamond_card, tie) {
+
+    if (tie) {
+      $('.deck').attr("src", `/images/${diamond_card}_of_diamonds.jpg`);
+    } else {
+      $('.diamond').attr("src", `/images/${diamond_card}_of_diamonds.jpg`);
+    }
+
+    once = 0;
+
+  }
+
+  function clearBoard(tie) {
+
+    if (!tie) {
+      $('.diamond').attr("src", "/images/back1.jpg");
+    }
+
+    $('.your_card').attr("src", "/images/back1.jpg");
+    $('.opponent_card').attr("src", "/images/back1.jpg");
+    $('.deck').attr("src", "/images/back1.jpg");
+
+  }
+
+  function postScore(your_score, user2_score) {
+
+    $('.opponent_score').text(user2_score);
+    $('.your_score').text(your_score);
+
+  }
+
 
 });
-
-function printDiamond(diamond_card, tie) {
-
-  if (tie) {
-    $('.deck').attr("src", `/images/${diamond_card}_of_diamonds.jpg`);
-  } else {
-    $('.diamond').attr("src", `/images/${diamond_card}_of_diamonds.jpg`);
-  }
-
-}
-
-function clearBoard(tie) {
-
-  if (!tie) {
-    $('.diamond').attr("src", "/images/back1.jpg");
-  }
-
-  $('.your_card').attr("src", "/images/back1.jpg");
-  $('.opponent_card').attr("src", "/images/back1.jpg");
-  $('.deck').attr("src", "/images/back1.jpg");
-
-}
-
-function postScore(your_score, user2_score) {
-
-  $('.opponent_score').text(user2_score);
-  $('.your_score').text(your_score);
-
-}
 
 // window.onbeforeunload = function(evt) {
 //   var message = 'Did you remember to download your form?';
