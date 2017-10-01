@@ -37,8 +37,6 @@ $(function() {
       url: "/gops/qwdw",
       type: 'POST',
       data: input,
-      // contentType: "application/json",
-      // dataType: "JSON",
       success: function(hey) {
         alert(hey);
       }
