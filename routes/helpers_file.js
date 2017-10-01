@@ -14,12 +14,29 @@ module.exports = function everyTurn() {
 
 
 }
+//Selects each user in a game
 module.exports = function selectUser() {
+  let temp = [];
+  knex('game_hand')
+    .select('game_id', 'user_id', 'score')
+    .where('game_id', 1)
+    .then((results) => {
+      for (let user in results) {
+        temp.push(results[user]);
+      }
+      console.log(temp);
 
-
-
+    });
 
 }
+//Selects all cards being played by GIVEN ID param
+module.exports = function selectFull(stuff) {
+  knex('cards_played')
+    .select('value')
+    .innerJoin('game_hand', 'game_hand.id', 'cards_played.hand_id')
+    .where('hand_id', stuff)
+    .then((results) => {});
+};
 
 
 //Check which player has the higher card PER TURN
@@ -73,7 +90,6 @@ module.exports = function selectDiamond(hand_id) {
       for (let cards in results) {
         temp.push(results[cards].value);
       }
-      console.log(temp);
       shuffleDiamond(temp, hand_id);
     });
 };
@@ -109,23 +125,13 @@ module.exports = function populateCurrentGame() {
       .then(function(id) {});
   }
 }
-//Selects all cards being played by GIVEN ID param
-module.exports = function selectFull(stuff) {
-  knex('cards_played')
-    .select('value')
-    .innerJoin('game_hand', 'game_hand.id', 'cards_played.hand_id')
-    .where('hand_id', stuff)
-    .then((results) => {
-      console.log(results);
-    });
-};
 
 
-function addTurnScore() {
+/*function addTurnScore() {
 
 
 
-}
+}*/
 
 
 
