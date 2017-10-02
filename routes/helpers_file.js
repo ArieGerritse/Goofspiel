@@ -1,26 +1,53 @@
 module.exports = {
-  newGame: function(user1, user2) {
-    populateDealer(hand_id);
-    selectDiamond(hand_id);
-    splitHands(game_id, user1_id, user2_id);
-  },
 
   everyTurn: function(game_id, user_id, played_card, diamond_card) {
-    let diamond = selectDiamond(game_id);
-    let tie = checkCards(game_id, diamond_card, user_id);
-    let scores = selectScore(game_id, user_id);
-    let op_card = checkFinalScore(game_id);
+
+    let diamond;
+    let tie;
+    let scores;
+    let op_card;
 
     let return_values = [];
-    return_values.push(diamond).push(tie).push(scores).push(op_card);
-    return return_values;
+
+    if (incrementHands(game_id) === 1) {
+      diamond = selectDiamond(game_id);
+      tie = checkCards(game_id, diamond_card, user_id);
+      scores = selectScore(game_id, user_id);
+      op_card = checkFinalScore(game_id);
+
+      return_values.push(diamond).push(tie).push(scores).push(op_card);
+      return return_values;
+    } else {
+      do {
+        let user1_turn = 0;
+        let user2_turn = 0;
+
+        setTimeout(function(game_id) {
+
+          knex('game_hand')
+            .select('turn_count')
+            .where('game_id', game_id)
+            .then((results) => {
+
+              user2_turn = results[0].turn_count;
+              user1_turn = results[1].turn_count;
+            });
+
+
+        }, 1000);
+
+      } while (user1_turn !== user2_turn);
+
+      return_values.push(diamond).push(tie).push(scores).push(op_card);
+
+    }
   },
 
-
   match_making: function(player_id) {
+
     knex.insert({
-      player_id: `${player_id}`
-    }).into('match_making').then(function(id) {});
+      player_id: player_id
+    }).into('match_making').then((results) => {});
 
     let players_looking;
 
@@ -31,8 +58,8 @@ module.exports = {
           players_looking = results.length;
           if (results.length >= 2) {
 
-            clear_match_making();
-            return null;
+            return newGameInTable(results[0].player_id, results[0].player_id);
+
 
           } else {
             setTimeout(function() {}, 3000);
@@ -42,12 +69,27 @@ module.exports = {
   }
 };
 
-function opponentHand() {};
+function newGameInTable(user1, user2) {
+
+  knex.insert({
+      winner: '',
+      turn_count: 1
+    }).into('current_game')
+    .then((results) => {
+
+      populateDealer(results[0].id);
+      selectDiamond(results[0].id);
+      splitHands(results[0].id, user1_id, user2_id);
+      return results[0].id;
+
+    });
+
+}
 
 //Selects each user in a game
 function selectScore(game_id, user_id) {
-  knex('game_hand', 'user_id')
-    .select('score')
+  knex('game_hand')
+    .select('score', 'user_id')
     .where('game_id', game_id)
     .then((results) => {
       if (results[0].user_id === user_id) {
@@ -92,6 +134,28 @@ function selectWinner(game, winner) {
     .then((results) => {});
 }
 
+function incrementHands(user_id, game_id) {
+  knex('game_hand')
+    .select('turn_count')
+    .where({
+      game_id: game_id,
+      user_id: user_id
+    })
+    .increment('turn_count', 1) //increment turn_count by one for current game and player
+    .then((results) => {});
+
+  knex('game_hand')
+    .select('turn_count')
+    .where('game_id', game_id)
+    .then((results) => {
+      if (results[0].score === results[1].score) {
+        return 1;
+      } else {
+        return null;
+      }
+    });
+}
+
 //Incraments winners' games_won to update latest result
 function incramentWinner(winner) {
   knex('player')
@@ -125,11 +189,6 @@ function checkCards(game_id, diamond_card, user_id) {
       }
       // return winner;
     });
-  knex('game_hand')
-    .select('turn_count')
-    .where('user_id', user_id)
-    .increment('turn_count', 1) //increment turn_count by one for current game and player
-    .then((results) => {});
 }
 //Selects winner and adds the current_diamond value to their current score
 function addTurnScore(game_id, winner, diamond_card) {

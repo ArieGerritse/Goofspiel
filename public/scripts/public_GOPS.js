@@ -41,8 +41,8 @@ $(function() {
         type: 'POST',
         data: input,
         success: function(results) {
-          // getData(results);
-          alert(results);
+          getData(results);
+          // alert(results);
         }
       });
     }
@@ -54,8 +54,8 @@ $(function() {
     diamond_card = array[0];
     let is_tie = array[1];
     let your_score = array[2];
-    let opponent_card = array[3];
-    let opponent_score = array[4];
+    let opponent_score = array[3];
+    let opponent_card = array[4];
 
     $('.opponent_card').attr("src", `/images/${opponent_card}_of_spades.svg`);
 

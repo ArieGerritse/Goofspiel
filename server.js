@@ -86,7 +86,9 @@ app.get('/wait', (req, res) => {
 
 app.post('/wait,', (req, res) => {
 
-  // match_making(req.body.input);
+  console.log('HELOOOOOOOOOOOOO');
+
+  match_making(req.body.player);
 
   let game_id;
   knex('current_game')

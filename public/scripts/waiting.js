@@ -9,7 +9,8 @@ $(function() {
   $.ajax({
     url: "/wait",
     type: 'POST',
-    data: add_to_matchmaking
+    data: add_to_matchmaking,
+    success: function(oldTweets) {}
   });
 
 });
