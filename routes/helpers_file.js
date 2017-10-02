@@ -1,4 +1,4 @@
-module.exports = function newGame(user1, user2) {
+module.exports = function newGame() {
   populateDealer(hand_id);
   selectDiamond(hand_id);
   populateCurrentGame();
