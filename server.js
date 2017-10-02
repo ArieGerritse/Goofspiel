@@ -86,8 +86,6 @@ app.get('/wait', (req, res) => {
 
 app.post('/wait,', (req, res) => {
 
-  console.log('HELOOOOOOOOOOOOO');
-
   match_making(req.body.player);
 
   let game_id;

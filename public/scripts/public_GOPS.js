@@ -3,8 +3,11 @@ $(function() {
   let once = 0;
   let url = window.location.href.slice(27);
   const card_values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+  let diamond_values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+  let op_cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
   let diamond_card;
-
+  let op_card;
+  let turn = 1;
 
   function createBoard(array) {
 
@@ -32,23 +35,122 @@ $(function() {
       diamond_card: diamond_card
     };
 
+    let card = this.name;
+
     if (once === 0) {
-      once++;
+      // once++;
       $(".your_card").attr("src", `/images/${this.name}_of_hearts.svg`);
       $(`.card-${input.input}`).hide();
-      $.ajax({
-        url: `/gops/${url}`,
-        type: 'POST',
-        data: input,
-        success: function(results) {
-          getData(results);
-          // alert(results);
-        }
-      });
+      // $.ajax({
+      //   url: `/gops/${url}`,
+      //   type: 'POST',
+      //   data: input,
+      //   success: function(results) {
+      //     getData(results);
+      //     // alert(results);
+      //   }
+      // });
+
+
+      setTimeout(function() {
+
+        compare(card, op_card, diamond_card);
+        turn++;
+
+        setTimeout(function() {
+
+          if (turn === 14) {
+            if ($('.your_score').text() > $('.opponent_score').text()) {
+              alert('YOU WIN!');
+            } else {
+              alert('You Lose!');
+            }
+          }
+
+        });
+
+      }, 2000);
+
+      setTimeout(function() {
+
+        randomOP(op_cards);
+
+      }, 5000);
+
+      setTimeout(function() {
+
+        clearBoard();
+        randomDiamond(diamond_values);
+
+      }, 4000);
+
     }
 
 
+
   });
+
+  function compare(your_card, opcard, diamon) {
+
+    console.log(your_card);
+    console.log(opcard);
+
+    if (your_card > opcard) {
+
+      let temp = Number($('.your_score').text());
+      temp += diamon;
+      $('.your_score').text(temp);
+
+    } else {
+
+      let temp = Number($('.opponent_score').text());
+      temp += diamon;
+      $('.opponent_score').text(temp);
+
+    }
+
+  }
+
+  setTimeout(function() {
+    console.log('HERE!');
+    randomDiamond(diamond_values);
+
+    setTimeout(function() {
+
+      randomOP(op_cards);
+
+    }, 1000);
+  }, 2000);
+
+
+  function randomDiamond(diamondCards) {
+    let random = Math.floor(Math.random() * (diamondCards.length));
+    diamond_card = diamond_values[random];
+    diamond_values.splice(random, 1);
+
+    printDiamond(diamond_card, 0);
+
+  }
+
+  function randomOP(diamondCards) {
+    let random = Math.floor(Math.random() * (diamondCards.length));
+    op_card = op_cards[random];
+    op_cards.splice(random, 1);
+
+    console.log(op_card);
+
+    printOP(op_card);
+
+  }
+
+  function printOP(op_cards) {
+
+    console.log(op_cards);
+
+    $('.opponent_card').attr("src", `/images/${op_cards}_of_spades.svg`);
+
+  }
+
 
   function getData(array) {
     diamond_card = array[0];
@@ -74,10 +176,10 @@ $(function() {
   function printDiamond(diamond_card, tie) {
 
     if (tie === 1) {
-      $('.deck').attr("src", `/images/${diamond_card}_of_diamonds.jpg`);
+      $('.deck').attr("src", `/images/${diamond_card}_of_diamonds.svg`);
       diamond_card = old_diamond + new_diamond;
     } else {
-      $('.diamond').attr("src", `/images/${diamond_card}_of_diamonds.jpg`);
+      $('.diamond').attr("src", `/images/${diamond_card}_of_diamonds.svg`);
     }
 
     once = 0;
