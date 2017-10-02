@@ -2,15 +2,18 @@ module.exports = {
   newGame: function(user1, user2) {
     populateDealer(hand_id);
     selectDiamond(hand_id);
-    populateCurrentGame();
+    splitHands(game_id, user1_id, user2_id);
   },
 
-  everyTurn: function() {
-    selectDiamond(hand_id);
-    splitHands(game_id, user1_id, user2_id);
-    checkCards(game_id, diamond_card, user_id)
-    checkFinalScore(game_id);
+  everyTurn: function(game_id, user_id, played_card, diamond_card) {
+    let diamond = selectDiamond(game_id);
+    let tie = checkCards(game_id, diamond_card, user_id);
+    let scores = selectScore(game_id, user_id);
+    let op_card = checkFinalScore(game_id);
 
+    let return_values = [];
+    return_values.push(diamond).push(tie).push(scores).push(op_card);
+    return return_values;
   },
 
 
@@ -39,16 +42,20 @@ module.exports = {
   }
 };
 
+function opponentHand() {};
+
 //Selects each user in a game
-function selectUser() {
-  let temp = [];
-  knex('game_hand')
-    .select('game_id', 'user_id', 'score')
-    .where('game_id', 1)
+function selectScore(game_id, user_id) {
+  knex('game_hand', 'user_id')
+    .select('score')
+    .where('game_id', game_id)
     .then((results) => {
-      for (let user in results) {
-        temp.push(results[user]);
+      if (results[0].user_id === user_id) {
+        return [results[0].score, results[1].score];
+      } else {
+        return [results[1].score, results[0].score];
       }
+
     });
 }
 //Populates the hand of a player in a game
@@ -103,10 +110,14 @@ function checkCards(game_id, diamond_card, user_id) {
       if (results[1].card_value > results[2].card_value) {
         winner = results[1].user_id;
         addTurnScore(game_id, winner, diamond_card);
+        tie = 0;
+        return tie;
       }
       if (results[1].card_value < results[2].card_value) {
         winner = results[2].user_id;
         addTurnScore(game_id, winner, diamond_card);
+        tie = 0;
+        return tie;
       }
       if (results[1].card_value === results[2].card_value) {
         tie = 1;
@@ -132,24 +143,30 @@ function addTurnScore(game_id, winner, diamond_card) {
     .then((results) => {});
 }
 //Check final score after game is played, and delete row of finished game
-function checkFinalScore(game_id) {
+function checkFinalScore(game_id, user_id) {
   let winner;
   knex('game_hand')
-    .select('user_id', 'score')
+    .select('user_id', 'score', 'turn_count')
     .where('game_id', game_id)
     .then((results) => {
-      if (results[1].score > results[2].score) {
-        winner = results[1].user_id;
-        //return winner + ': ' + results[1].score;
+      if (results[1].turn_count === 13 && results[0].turn_count === 13) {
+        if (results[1].score > results[0].score) {
+          winner = results[1].user_id;
+          //return winner + ': ' + results[1].score;
+        }
+        if (results[1].score < results[0].score) {
+          winner = results[0].user_id;
+          //return winner + ': ' + results[2].score;
+        }
+        if (results[1].score === results[0].score) {}
+        incramentWinner(winner);
+        selectWinner(game_id, winner);
       }
-      if (results[1].score < results[2].score) {
-        winner = results[2].user_id;
-        //return winner + ': ' + results[2].score;
+      if (results[0].user_id !== user_id) {
+        return results[0].card_value;
+      } else {
+        return results[1].card_value;
       }
-      if (results[1].score === results[2].score) {}
-      incramentWinner(winner);
-      selectWinner(game_id, winner);
-      return winner;
     });
   knex('game_hand')
     .where('game_id', game_id)
@@ -157,27 +174,29 @@ function checkFinalScore(game_id) {
 }
 
 //Shuffles a random diamond card and discards it
-function shuffleDiamond(diamondCards, hand_id) {
+function shuffleDiamond(diamondCards, game_id) {
   let card = Math.floor(Math.random() * (diamondCards.length));
   //Deletes row of card played
   knex('cards_played')
     .del()
     .where({
-      hand_id: hand_id,
+      hand_id: game_id,
       value: diamondCards[card]
-    }).asCallback((result) => {});
+    }).asCallback((result) => {
+      return diamondCards[card];
+    });
 }
 //Selects dealer's card by hand_id, and shuffles them
-function selectDiamond(hand_id) {
+function selectDiamond(game_id) {
   let temp = [];
   knex('cards_played')
     .select('value')
-    .where('hand_id', hand_id)
+    .where('hand_id', game_id)
     .then((results) => {
       for (let cards in results) {
         temp.push(results[cards].value);
       }
-      shuffleDiamond(temp, hand_id);
+      return shuffleDiamond(temp, game_id);
     });
 }
 
@@ -191,16 +210,16 @@ function populateDealer(hand_id) {
       .then(function(id) {});
   }
 }
-//Populates current game with 13 cards and leaves winner blank
-function populateCurrentGame() {
-  for (let i = 1; i <= 13; i++) {
-    knex.insert({
-        winner: ``,
-        turn_count: `${i}`
-      }).into('current_game')
-      .then(function(id) {});
-  }
-};
+// //Populates current game with 13 cards and leaves winner blank
+// function populateCurrentGame() {
+//   for (let i = 1; i <= 13; i++) {
+//     knex.insert({
+//         winner: ``,
+//         turn_count: `${i}`
+//       }).into('current_game')
+//       .then(function(id) {});
+//   }
+// };
 
 function match_making(player_id) {
   knex.insert({
