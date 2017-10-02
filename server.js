@@ -14,7 +14,8 @@ const knexConfig = require("./knexfile");
 const knex = require("knex")(knexConfig[ENV]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
-
+const helpersFile = require("./routes/helpers_file");
+let test = helpersFile.test;
 
 // Seperated Routes for each Resource
 // const usersRoutes = require("./routes/users");
@@ -83,9 +84,16 @@ app.get('/wait', (req, res) => {
 
 app.post('/wait,', (req, res) => {
 
-  let found = match_making(req.body.input);
+  // match_making(req.body.input);
 
-  res.redirect(`/gops/${found + req.session.player}`);
+  let game_id;
+  knex('current_game')
+    .select('id')
+    .then((results) => {
+      game_id = results[results.length - 1].id;
+    });
+
+  res.redirect(`/gops/${game_id + req.session.player}`);
 
 });
 
@@ -103,12 +111,14 @@ app.post('/GOPS/:id', (req, res) => {
   let input = req.body.input;
   // let diamond_card = req.body.diamond_cardond_card;
   // let thing = everyTurn(game_id, user, input, diamond_card);
+
+  let thing = test();
+  console.log(thing);
+
   res.json(thing);
 });
 
 
 // const game_routes = require("./routes/game_gop");
 
-app.listen(PORT, () => {
-  console.log("Example app listening on port " + PORT);
-});
+app.listen(PORT, () => {});
