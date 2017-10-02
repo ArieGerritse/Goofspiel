@@ -92,8 +92,7 @@ function incramentWinner(winner) {
     .where('id', winner) //winner variable to be passed
     .increment('games_won', 1)
     .then((results) => {});
-}
-
+};
 //Check which player has the higher card PER TURN
 function checkCards(game_id, diamond_card, user_id) {
   let winner;
@@ -207,19 +206,15 @@ function match_making(player_id) {
   knex.insert({
     player_id: `${player_id}`
   }).into('match_making').then(function(id) {});
-
   let players_looking;
-
   do {
     knex('match_making')
       .select('*')
       .then((results) => {
         players_looking = results.length;
         if (results.length >= 2) {
-
           clear_match_making();
           return null;
-
         } else {
           setTimeout(function() {}, 5000);
         }
