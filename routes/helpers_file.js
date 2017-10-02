@@ -8,8 +8,8 @@ module.exports = function newGame(user1, user2) {
 module.exports = function everyTurn() {
   selectDiamond();
   checkCards();
-  addTurnScore();
   splitHands(game_id, user1_id, user2_id);
+  checkCards(game_id, diamond_card, user_id)
   checkFinalScore(game_id);
 
 }
@@ -68,19 +68,40 @@ function incramentWinner(winner) {
 }
 
 //Check which player has the higher card PER TURN
-module.exports = function checkCards() {
+function checkCards(game_id, diamond_card, user_id) {
   let winner;
-  if (testDB.user1_card > testDB.user2_card) {
-    winner = 'user1_card';
-    return winner + ': ' + testDB.user1_card;
-  }
-  if (testDB.user1_card < testDB.user2_card) {
-    winner = 'user2_card';
-    return winner + ': ' + testDB.user2_card;
-  }
-  if (testDB.user1_card === testDB.user2_card) {
-    //ifTie();
-  }
+  knex('game_hand')
+    .select('card_value', 'turn_count', 'user_id')
+    .where('game_id', game_id)
+    .then((results) => {
+      if (results[1].card_value > results[2].card_value) {
+        winner = results[1].user_id;
+      }
+      if (results[1].card_value < results[2].card_value) {
+        winner = results[2].user_id;
+      }
+      if (results[1].card_value === results[2].card_value) {
+        //ifTie();
+      }
+      // return winner;
+      addTurnScore(game_id, winner, diamond_card);
+    })
+  knex('game_hand')
+    .select('turn_count')
+    .where('user_id', user_id)
+    .increment('turn_count', 1) //increment turn_count by one for current game and player
+    .then((results) => {});
+};
+//Selects winner and adds the current_diamond value to their current score
+function addTurnScore(game_id, winner, diamond_card) {
+  knex('game_hand')
+    .select('score')
+    .where({
+      game_id: game_id,
+      user_id: winner
+    })
+    .increment('score', diamond_card)
+    .then((results) => {});
 };
 //Check final score after game is played, and delete row of finished game
 module.exports = function checkFinalScore(game_id) {
@@ -107,7 +128,6 @@ module.exports = function checkFinalScore(game_id) {
   knex('game_hand')
     .where('game_id', game_id)
     .del().asCallback((result) => {});
-
 };
 //Shuffles a random diamond card and discards it
 module.exports = function shuffleDiamond(diamondCards, hand_id) {
@@ -153,7 +173,7 @@ module.exports = function populateDealer(hand_id) {
       }).into('cards_played')
       .then(function(id) {});
   }
-}
+};
 //Populates current game with 13 cards and leaves winner blank
 module.exports = function populateCurrentGame() {
 
@@ -173,12 +193,6 @@ module.exports = function populateCurrentGame() {
 
 }*/
 
-
-/*function clearTable(){
-
-
-
-}*/
 
 /*function ifTurnTie() {
 
