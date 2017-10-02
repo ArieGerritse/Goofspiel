@@ -41,7 +41,8 @@ $(function() {
         type: 'POST',
         data: input,
         success: function(results) {
-          getData(results);
+          // getData(results);
+          alert(results);
         }
       });
     }

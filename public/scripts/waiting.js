@@ -21,18 +21,7 @@ $(function() {
     $.ajax({
       url: "/wait",
       type: 'POST',
-      success: function(hey) {
-        if (hey[0]) {
-          let game_found = {
-            found: hey[0]
-          };
-          $.ajax({
-            url: "/wait",
-            type: 'POST',
-            data: game_found
-          });
-        }
-      }
+      success: function(hey) {}
     });
 
   }, 1000);

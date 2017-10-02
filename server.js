@@ -83,20 +83,19 @@ app.get('/wait', (req, res) => {
 
 app.post('/wait,', (req, res) => {
 
-  // if (req.body.input) {
-  //   let found = match_making(req.body.input);
-  //   if (found) {
-  //     res.redirect(`/gops/${found + req.session.player}`);
-  //   }
-  // } else if (req.body.found) {
-  //   res.redirect(`/gops/${req.body.found + req.session.player}`);
-  // } else {
-  //   let found = match_making();
-  //   if (found) {
-  //     res.redirect(`/gops/${found + req.session.player}`);
-  //   }
-  // }
-
+  if (req.body.input) {
+    let found = match_making(req.body.input);
+    if (found) {
+      res.redirect(`/gops/${found + req.session.player}`);
+    }
+  } else if (req.body.found) {
+    res.redirect(`/gops/${req.body.found + req.session.player}`);
+  } else {
+    let found = match_making();
+    if (found) {
+      res.redirect(`/gops/${found + req.session.player}`);
+    }
+  }
 
 });
 
@@ -112,8 +111,9 @@ app.post('/GOPS/:id', (req, res) => {
   let game_id = url.substring(0, 1);
   let user = req.session.player;
   let input = req.body.input;
-  let diamond_card = req.body.diamond_card;
-  let thing = everyTurn(game_id, user, input, diamond_card);
+  // let diamond_card = req.body.diamond_cardond_card;
+  // let thing = everyTurn(game_id, user, input, diamond_card);
+  let thing = test();
   res.json(thing);
 });
 
