@@ -2,28 +2,14 @@ $(function() {
 
   let add_to_matchmaking = {
 
-    player: 10
+    player: $('.player_id').text()
 
   };
-
-  let player = $('.player_id').text();
 
   $.ajax({
     url: "/wait",
     type: 'POST',
     data: add_to_matchmaking
   });
-
-
-
-  setInterval(function() {
-
-    $.ajax({
-      url: "/wait",
-      type: 'POST',
-      success: function(hey) {}
-    });
-
-  }, 1000);
 
 });

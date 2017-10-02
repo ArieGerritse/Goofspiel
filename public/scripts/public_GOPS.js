@@ -73,8 +73,9 @@ $(function() {
 
   function printDiamond(diamond_card, tie) {
 
-    if (tie) {
+    if (tie === 1) {
       $('.deck').attr("src", `/images/${diamond_card}_of_diamonds.jpg`);
+      diamond_card = old_diamond + new_diamond;
     } else {
       $('.diamond').attr("src", `/images/${diamond_card}_of_diamonds.jpg`);
     }

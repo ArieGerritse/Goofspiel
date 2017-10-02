@@ -180,4 +180,36 @@ module.exports = function populateCurrentGame() {
       }).into('current_game')
       .then(function(id) {});
   }
-}
+};
+
+module.exports = function match_making(player_id) {
+  knex.insert({
+    player_id: `${player_id}`
+  }).into('match_making').then(function(id) {});
+
+  let players_looking;
+
+  do {
+    knex('match_making')
+      .select('*')
+      .then((results) => {
+        players_looking = results.length;
+        if (results.length >= 2) {
+
+          clear_match_making();
+          return null;
+
+        } else {
+          setTimeout(function() {}, 5000);
+        }
+      });
+  } while (players_looking < 2);
+};
+
+module.exports = function clear_match_making() {
+
+  knex('match_making')
+    .del()
+    .select('*');
+
+};
