@@ -8,7 +8,6 @@ module.exports = function everyTurn() {
   splitHands(game_id, user1_id, user2_id);
   checkCards(game_id, diamond_card, user_id)
   checkFinalScore(game_id);
-
 }
 //Selects each user in a game
 /*module.exports = function selectUser() {
@@ -22,9 +21,8 @@ module.exports = function everyTurn() {
       }
     });
 }*/
-
 //Populates the hand of a player in a game
-module.exports = function populateHandTable(game_id, user_id) {
+function populateHandTable(game_id, user_id) {
   knex.insert({
       game_id: `${game_id}`,
       user_id: `${user_id}`,
@@ -55,7 +53,7 @@ module.exports = function selectWinner(game, winner) {
       winner: winner //winner variable to be passed
     })
     .then((results) => {});
-}
+};
 //Incraments winners' games_won to update latest result
 module.exports = function incramentWinner(winner) {
   knex('player')
@@ -63,8 +61,7 @@ module.exports = function incramentWinner(winner) {
     .where('id', winner) //winner variable to be passed
     .increment('games_won', 1)
     .then((results) => {});
-}
-
+};
 //Check which player has the higher card PER TURN
 module.exports = function checkCards(game_id, diamond_card, user_id) {
   let winner;
@@ -93,7 +90,7 @@ module.exports = function checkCards(game_id, diamond_card, user_id) {
     .then((results) => {});
 };
 //Selects winner and adds the current_diamond value to their current score
-module.exports = function addTurnScore(game_id, winner, diamond_card) {
+function addTurnScore(game_id, winner, diamond_card) {
   knex('game_hand')
     .select('score')
     .where({
@@ -128,7 +125,7 @@ module.exports = function checkFinalScore(game_id) {
     .del().asCallback((result) => {});
 };
 //Shuffles a random diamond card and discards it
-module.exports = function shuffleDiamond(diamondCards, hand_id) {
+function shuffleDiamond(diamondCards, hand_id) {
   let card = Math.floor(Math.random() * (diamondCards.length));
   //Deletes row of card played
   knex('cards_played')
@@ -181,24 +178,19 @@ module.exports = function populateCurrentGame() {
       .then(function(id) {});
   }
 };
-
 module.exports = function match_making(player_id) {
   knex.insert({
     player_id: `${player_id}`
   }).into('match_making').then(function(id) {});
-
   let players_looking;
-
   do {
     knex('match_making')
       .select('*')
       .then((results) => {
         players_looking = results.length;
         if (results.length >= 2) {
-
           clear_match_making();
           return null;
-
         } else {
           setTimeout(function() {}, 5000);
         }
@@ -206,10 +198,8 @@ module.exports = function match_making(player_id) {
   } while (players_looking < 2);
 };
 
-module.exports = function clear_match_making() {
-
+function clear_match_making() {
   knex('match_making')
     .del()
     .select('*');
-
 };
