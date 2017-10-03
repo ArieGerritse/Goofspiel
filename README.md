@@ -25,5 +25,17 @@
 
 ## Dependencies
 
-- Node 5.10.x or above
-- NPM 3.8.x or above
+-- body-parser: 1.15.2+
+-- cookie-session: 1.3.2+
+-- dotenv: 2.0.0+
+-- ejs: 2.4.1+
+-- express: 4.13.4+
+-- knex: 0.11.7+
+-- knex-logger: 0.1.0+
+-- morgan: 1.7.0+
+-- node-sass-middleware :0.9.8+
+-- pg: 6.0.2+
+
+## Installation
+
+Run npm install to aquire all the required dependencies.
